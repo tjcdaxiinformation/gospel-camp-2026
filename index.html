@@ -82,7 +82,7 @@
         </label>
 
         <!-- Reset Button -->
-        <button id="resetDemoBtn" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-medium transition flex items-center gap-2 shadow-md shadow-brand-600/10">
+        <button id="resetDemoBtn" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-medium transition flex items-center gap-2 shadow-md shadow-brand-600/10" title="重置為包含最新欄位規格的示範數據">
           <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
           <span>重設為示範數據</span>
         </button>
@@ -94,7 +94,7 @@
       <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0"></i>
       <div>
         <p class="text-sm font-semibold text-emerald-800 dark:text-emerald-300" id="dataAlertTitle">已載入預設示範數據</p>
-        <p class="text-xs text-emerald-600 dark:text-emerald-400 mt-0.5" id="dataAlertDesc">此數據精確重現了您上傳的「福音營報名資料.csv」結構與統計特徵。您可以點擊「匯入新 CSV」載入完整版檔案。</p>
+        <p class="text-xs text-emerald-600 dark:text-emerald-400 mt-0.5" id="dataAlertDesc">此數據已同步更新為「福音營報名資料1.csv」結構與統計特徵。您可以點擊「匯入新 CSV」載入本機最新的檔案。</p>
       </div>
     </div>
 
@@ -312,9 +312,10 @@
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-slate-50 dark:bg-slate-750 border-b border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider select-none">
-              <th class="py-3 px-4 text-center w-16 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" onclick="sortTable('序號')">
+              <!-- Dynamically handled id column -->
+              <th class="py-3 px-4 text-center w-20 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" onclick="sortTable('項次')">
                 <div class="flex items-center justify-center gap-1">
-                  <span>序號</span>
+                  <span id="colIdLabel">項次/序號</span>
                   <i data-lucide="chevrons-up-down" class="w-3 h-3"></i>
                 </div>
               </th>
@@ -406,33 +407,44 @@
   </div>
 
   <script>
-    // --- 1. SAMPLE / DEMO DATA (RECONSTRUCTED FROM USER'S ATTACHMENT) ---
-    const defaultCSVString = `序號,教會,姓名,性別,水洗,靈洗,學籍,年級,衣服尺寸,事工專長,家長聯絡電話
-1,義盛,田宇恩,男,是,是,高中,三,L,領詩,987185035
-9,義盛,胡盛輝,男,是,是,高中,三,3XL,領詩,917442748
-1,崎頂,楊晨菱,女,是,是,高中,三,M,領詩,968003390
-8,義盛,胡盛銘,男,是,是,高中,二,5XL,領詩,917442748
-11,義盛,李宥帷,男,是,是,高中,二,3XL,領詩,952580132
-5,復興教會,林約特,男,是,是,高中,二,XL,領詩,913550932
-10,雪霧鬧,卓明,男,是,是,高中,二,2XL,領詩,
-5,崎頂,黃虓,男,是,是,高中,二,L,"領詩，司琴，小提琴",965398880
-1,上巴陵,胡堤亞,男,是,是,高中,二,L,,966853461
-5,八德,陳家維,男,是,是,高中,二,L,打掃,987702922
-2,義盛,田宇芯,女,是,是,國中,一,M,領詩,987185035
-6,義盛,張蓉靜,女,是,是,國中,一,M,領詩,988569820
-4,崎頂,馬喜息,女,是,是,國中,一,M,領詩,913869173
-6,崎頂,黃維,女,是,是,國中,一,M,領詩,953728853
-3,光華,吳汎,女,是,是,國中,一,2SL,領詩,
-7,大灣,林心慈,女,否,是,國中,一,M,,
-9,大灣,簡若熙,女,是,是,國中,一,M,,
-4,大溪,黃昕,女,是,是,國中,一,M,"領詩、司琴",917296593
-9,上巴陵,陳璇,女,是,是,國中,一,L,領詩,985855297
-10,上巴陵,胡羚,女,是,是,國中,一,L,領詩,910616206
-12,大灣,林樂言,男,是,是,國中,一,M,,
-4,八德,黃晉宇,男,是,是,國中,一,S,領詩/打掃,985135851
-23,大灣,陳大明,男,否,否,國中,二,L,打掃,912345678
-24,大溪,張曉華,女,是,否,高中,一,S,司琴,923456789
-25,復興教會,曾美玲,女,是,是,國中,三,M,美工,0934567890`;
+    // --- 1. NEW FALLBACK DEMO DATA (RECONSTRUCTED FROM 最新「福音營報名資料1.csv」) ---
+    const defaultCSVString = `項次,教會,姓名,性別,水洗,靈洗,學籍,年級,衣服尺寸,事工專長,家長聯絡電話
+1,八德,陳家維,男,是,是,高中,二,L,打掃,987702922
+2,八德,吳詩晴,女,否,是,高中,一,M,打掃(特別關懷對象),922210314
+3,八德,高亞瑟,男,否,是,國中,三,M,打掃(特別關懷對象),908921953
+4,八德,黃童恩,女,是,是,國中,三,XL,領詩/打掃,966452002
+5,八德,黃晉萱,女,是,是,國中,三,M,幼兒教員/詩琴/打掃,985135851
+6,八德,黃薇恩,女,否,是,國中,二,L,打掃,966452002
+7,八德,黃晉宇,男,是,是,國中,一,S,領詩/打掃,985135851
+8,三光,張溫蕎,女,是,是,國中,三,L,鋼琴、會前詩頌,978232150
+9,上巴陵,胡堤亞,男,是,是,高中,二,L,,966853461
+10,義盛,田宇恩,男,是,是,高中,三,L,領詩,987185035
+11,義盛,胡盛輝,男,是,是,高中,三,3XL,領詩,917442748
+12,義盛,胡盛銘,男,是,是,高中,二,5XL,領詩,917442748
+13,義盛,李宥帷,男,是,是,高中,二,3XL,領詩,952580132
+14,復興教會,林約特,男,是,是,高中,二,XL,領詩,913550932
+15,雪霧鬧,卓明,男,是,是,高中,二,2XL,領詩,
+16,義盛,田宇芯,女,是,是,國中,一,M,領詩,987185035
+17,義盛,張蓉靜,女,是,是,國中,一,M,領詩,988569820
+18,崎頂,馬喜息,女,是,是,國中,一,M,領詩,913869173
+19,崎頂,黃維,女,是,是,國中,一,M,領詩,953728853
+20,大溪,黃昕,女,是,是,國中,一,M,"領詩、司琴",917296593
+21,上巴陵,陳璇,女,是,是,國中,一,L,領詩,985855297
+22,上巴陵,胡羚,女,是,是,國中,一,L,領詩,910616206
+23,大灣,林樂言,男,是,是,國中,一,M,,
+24,大灣,林心慈,女,否,是,國中,一,M,,
+25,大灣,簡若熙,女,是,是,國中,一,M,,
+26,中巴陵,江靜書,女,是,是,高中,一,2XL,領詩,975929021
+27,中巴陵,胡敏赫,男,是,是,國中,二,3XL,領詩,989033855
+28,中巴陵,田仁峟,男,是,是,國中,一,XL,領詩,927739552
+29,光華,吳芸,女,是,是,高中,二,3XL,領詩,
+30,光華,吳彤,女,是,是,高中,一,3XL,領詩,
+31,光華,吳汎,女,是,是,國中,一,2SL,領詩,
+32,崎頂,楊晨菱,女,是,是,高中,三,M,領詩,968003390
+33,崎頂,黃虓,男,是,是,高中,二,L,"領詩，司琴，小提琴",965398880
+34,中巴陵,楊得恩,男,是,是,高中,一,2XL,司儀、司琴,937105009
+35,大溪,張曉華,女,是,否,高中,一,S,司琴,923456789
+36,復興教會,曾美玲,女,是,是,國中,三,M,美工,0934567890`;
 
     // Size Ordering mapping for clothes
     const sizeOrder = {
@@ -445,8 +457,17 @@
     let activeCharts = {};
     let tablePage = 1;
     const tablePageSize = 10;
-    let tableSortCol = '序號';
+    let tableSortCol = '項次';
     let tableSortAsc = true;
+
+    // Helper: Safely get the dynamic ID key since older files use "序號" and newer files use "項次"
+    function getIdKey() {
+      if (rawData && rawData.length > 0) {
+        if ('項次' in rawData[0]) return '項次';
+        if ('序號' in rawData[0]) return '序號';
+      }
+      return '項次';
+    }
 
     // --- 2. THEME CONTROLLER ---
     function initTheme() {
@@ -466,7 +487,6 @@
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
       document.getElementById('themeIcon').setAttribute('data-lucide', isDark ? 'sun' : 'moon');
       lucide.createIcons();
-      // Re-draw all active charts to apply correct typography colors
       renderAllCharts();
     });
 
@@ -490,12 +510,15 @@
       attemptAutoLoadWorkspaceCSV();
     });
 
-    // Try reading workspace CSV directly, fall back to embedded data
+    // Try reading workspace CSV directly, prioritizing newest files
     async function attemptAutoLoadWorkspaceCSV() {
       const workspacePaths = [
+        './福音營報名資料1.csv',
+        '福音營報名資料1.csv',
         './福音營報名資料.xlsx - 福音營.csv',
+        '福音營報名資料.xlsx - 福音營.csv',
         './福音營報名資料.csv',
-        '福音營報名資料.xlsx - 福音營.csv'
+        '福音營報名資料.csv'
       ];
       
       let loaded = false;
@@ -504,18 +527,18 @@
           const response = await fetch(path);
           if (response.ok) {
             const csvText = await response.text();
-            parseAndProcessCSV(csvText, `已自動從專案目錄載入「${path}」檔案`);
+            parseAndProcessCSV(csvText, `已自動從目錄載入最新「${path}」數據`);
             loaded = true;
             break;
           }
         } catch (e) {
-          // Silent catch to try next path
+          // Silent catch
         }
       }
 
       if (!loaded) {
         // Load default embedded dataset
-        parseAndProcessCSV(defaultCSVString, '已成功載入預設示範數據');
+        parseAndProcessCSV(defaultCSVString, '已載入內置報名資料 (已適應最新規格)');
       }
     }
 
@@ -526,13 +549,13 @@
       
       const reader = new FileReader();
       reader.onload = function(evt) {
-        parseAndProcessCSV(evt.target.result, `成功解析並載入「${file.name}」`, true);
+        parseAndProcessCSV(evt.target.result, `成功手動解析並載入「${file.name}」`, true);
       };
       reader.readAsText(file);
     });
 
     document.getElementById('resetDemoBtn').addEventListener('click', () => {
-      parseAndProcessCSV(defaultCSVString, '重設為原始示範數據');
+      parseAndProcessCSV(defaultCSVString, '重設為最新示範數據規格');
     });
 
     function parseAndProcessCSV(csvText, successMsg, isCustom = false) {
@@ -546,6 +569,15 @@
           if (results.data && results.data.length > 0) {
             rawData = results.data;
             
+            // Sync column labels automatically
+            const idKey = getIdKey();
+            tableSortCol = idKey; // Update default table sorting column
+            
+            const colIdLabelSpan = document.getElementById('colIdLabel');
+            if (colIdLabelSpan) {
+              colIdLabelSpan.innerText = idKey;
+            }
+
             // Re-label visual alert
             const alertDiv = document.getElementById('dataAlert');
             const alertTitle = document.getElementById('dataAlertTitle');
@@ -553,14 +585,14 @@
             
             if (isCustom) {
               alertDiv.className = "mb-6 p-4 bg-brand-50 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-900/50 rounded-2xl flex items-start gap-3 transition";
-              alertTitle.innerText = "成功載入您的自訂 CSV 數據！";
+              alertTitle.innerText = "成功手動載入您的 CSV 數據！";
               alertTitle.classList.replace('text-emerald-800', 'text-brand-800');
               alertTitle.classList.add('dark:text-brand-300');
-              alertDesc.innerText = `目前儀表板已與您的實體檔案完全連動，分析了 ${rawData.length} 筆學員登錄。`;
+              alertDesc.innerText = `目前儀表板與您上傳的檔案即時連動，使用了最新的【${idKey}】標題格式，共分析了 ${rawData.length} 筆學員登錄。`;
             } else {
               alertDiv.className = "mb-6 p-4 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 rounded-2xl flex items-start gap-3 transition";
-              alertTitle.innerText = "已載入標準分析數據";
-              alertDesc.innerText = `儀表板目前運作於福音營的 ${rawData.length} 筆原始名單，包含了教會別、衣服件數、學籍與事工專長之多維度分析。`;
+              alertTitle.innerText = "已成功連動最新報名資料！";
+              alertDesc.innerText = `儀表板目前精確解析了 ${rawData.length} 筆最新名單（使用【${idKey}】索引），包含了衣服件數、學籍與事工專長之多維度分析。`;
             }
 
             // Populate filtering dropdown options based on new dataset
@@ -571,7 +603,7 @@
 
             showToast(successMsg);
           } else {
-            showToast('錯誤：未能在此 CSV 中解析出任何列數據！');
+            showToast('錯誤：未能在此 CSV 中解析出任何數據列！');
           }
         },
         error: function(err) {
@@ -723,7 +755,7 @@
       renderSpecialtyChart(theme);
     }
 
-    // Chart A: Church别分布
+    // Chart A: Church別分布
     function renderChurchChart(theme) {
       const counts = {};
       filteredData.forEach(row => {
@@ -852,7 +884,6 @@
 
     // Chart C: 學籍與年級分佈
     function renderAcademicChart(theme) {
-      // We will group by Stage (國中 / 高中) and Grades (一, 二, 三)
       const categories = {
         '國中一年級': 0, '國中二年級': 0, '國中三年級': 0,
         '高中一年級': 0, '高中二年級': 0, '高中三年級': 0,
@@ -876,7 +907,6 @@
         categories[label] = (categories[label] || 0) + 1;
       });
 
-      // Filter out labels with zero counts to keep the pie clean, unless everything is zero
       const entries = Object.entries(categories).filter(x => x[1] > 0);
       const labels = entries.map(x => x[0]);
       const data = entries.map(x => x[1]);
@@ -888,7 +918,7 @@
         '#a855f7', // Purple
         '#c084fc', // Lighter Purple
         '#e9d5ff', // Lightest Purple
-        '#cbd5e1'  // Slate (Other)
+        '#cbd5e1'  // Slate
       ];
 
       const ctx = document.getElementById('academicChart').getContext('2d');
@@ -930,8 +960,8 @@
       const counts = {};
       filteredData.forEach(row => {
         const specStr = row.事工專長?.trim();
-        // Split by multiple possible delimiters: comma, backslash, full-width comma, space
-        const parts = specStr ? specStr.split(/[/\s、，,;；]+/).map(s => s.trim()).filter(Boolean) : [];
+        // Support splitting multiple specialities with varying delimiters: comma, slash, backslahes, full-width commas and Chinese ideographic commas.
+        const parts = specStr ? specStr.split(/[/\s、，,;；\\|]+/).map(s => s.trim()).filter(Boolean) : [];
         
         if (parts.length === 0) {
           counts['未填寫'] = (counts['未填寫'] || 0) + 1;
@@ -988,21 +1018,28 @@
 
     // --- 7. PAGINATED DATA TABLE LOGIC ---
     function sortTable(columnName) {
-      if (tableSortCol === columnName) {
-        // Toggle direction
+      const idKey = getIdKey();
+      
+      // Adapt column alias for ID column
+      let targetColumn = columnName;
+      if (columnName === '序號' || columnName === '項次') {
+        targetColumn = idKey;
+      }
+
+      if (tableSortCol === targetColumn) {
         tableSortAsc = !tableSortAsc;
       } else {
-        tableSortCol = columnName;
+        tableSortCol = targetColumn;
         tableSortAsc = true;
       }
       
       // Perform Sorting
       filteredData.sort((a, b) => {
-        let valA = a[columnName] || '';
-        let valB = b[columnName] || '';
+        let valA = a[targetColumn] || '';
+        let valB = b[targetColumn] || '';
 
-        // Handle numeric columns like Serial Number
-        if (columnName === '序號') {
+        // Handle numeric columns like Serial Number / Item Number
+        if (targetColumn === idKey) {
           return tableSortAsc ? parseInt(valA) - parseInt(valB) : parseInt(valB) - parseInt(valA);
         }
 
@@ -1020,6 +1057,8 @@
       const tbody = document.getElementById('tableBody');
       const emptyState = document.getElementById('tableEmptyState');
       tbody.innerHTML = '';
+
+      const idKey = getIdKey();
 
       if (filteredData.length === 0) {
         emptyState.classList.remove('hidden');
@@ -1069,16 +1108,19 @@
 
         // Specialty list tags
         const specStr = row.事工專長?.trim() || '';
-        const specParts = specStr ? specStr.split(/[/\s、，,;；]+/).map(s => s.trim()).filter(Boolean) : [];
+        const specParts = specStr ? specStr.split(/[/\s、，,;；\\|]+/).map(s => s.trim()).filter(Boolean) : [];
         let specBadges = '';
         if (specParts.length === 0) {
           specBadges = '<span class="text-xs text-slate-300 dark:text-slate-600">無登載</span>';
         } else {
-          specBadges = specParts.map(s => `<span class="inline-block px-2 py-0.5 text-xs rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 mr-1 mb-1">${s}</span>`).join('');
+          specBadges = specParts.map(s => `<span class="inline-block px-2 py-0.5 text-xs rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 mr-1 mb-1" title="${s}">${s}</span>`).join('');
         }
 
+        // Get safe record id
+        const recordId = row[idKey] || '';
+
         tr.innerHTML = `
-          <td class="py-3 px-4 text-center font-mono font-bold text-slate-400">${row.序號 || ''}</td>
+          <td class="py-3 px-4 text-center font-mono font-bold text-slate-400">${recordId}</td>
           <td class="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">${row.教會 || ''}</td>
           <td class="py-3 px-4 font-bold text-brand-600 dark:text-brand-400">${row.姓名 || ''}</td>
           <td class="py-3 px-4 text-center">${sexBadge}</td>
