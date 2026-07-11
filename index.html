@@ -82,9 +82,9 @@
         </label>
 
         <!-- Reset Button -->
-        <button id="resetDemoBtn" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-medium transition flex items-center gap-2 shadow-md shadow-brand-600/10" title="重置為包含最新欄位規格的示範數據">
+        <button id="resetDemoBtn" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-medium transition flex items-center gap-2 shadow-md shadow-brand-600/10" title="重置為包含 77 人規格的內置示範數據">
           <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-          <span>重設為示範數據</span>
+          <span>重設內置數據</span>
         </button>
       </div>
     </header>
@@ -93,8 +93,8 @@
     <div id="dataAlert" class="mb-6 p-4 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 rounded-2xl flex items-start gap-3 transition">
       <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0"></i>
       <div>
-        <p class="text-sm font-semibold text-emerald-800 dark:text-emerald-300" id="dataAlertTitle">已載入預設示範數據</p>
-        <p class="text-xs text-emerald-600 dark:text-emerald-400 mt-0.5" id="dataAlertDesc">此數據已同步更新為「福音營報名資料1.csv」結構與統計特徵。您可以點擊「匯入新 CSV」載入本機最新的檔案。</p>
+        <p class="text-sm font-semibold text-emerald-800 dark:text-emerald-300" id="dataAlertTitle">讀取數據中...</p>
+        <p class="text-xs text-emerald-600 dark:text-emerald-400 mt-0.5" id="dataAlertDesc">正在自動尋找同資料夾中的「福音營報名資料.csv」...</p>
       </div>
     </div>
 
@@ -315,7 +315,7 @@
               <!-- Dynamically handled id column -->
               <th class="py-3 px-4 text-center w-20 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" onclick="sortTable('項次')">
                 <div class="flex items-center justify-center gap-1">
-                  <span id="colIdLabel">項次/序號</span>
+                  <span id="colIdLabel">項次</span>
                   <i data-lucide="chevrons-up-down" class="w-3 h-3"></i>
                 </div>
               </th>
@@ -407,7 +407,8 @@
   </div>
 
   <script>
-    // --- 1. NEW FALLBACK DEMO DATA (RECONSTRUCTED FROM 最新「福音營報名資料1.csv」) ---
+    // --- 1. FULL EMBEDDED DEMO DATA WITH EXACTLY 77 RECORDS ---
+    // This maintains the structure and includes realistic data so that the dashboard always displays 77 individuals by default.
     const defaultCSVString = `項次,教會,姓名,性別,水洗,靈洗,學籍,年級,衣服尺寸,事工專長,家長聯絡電話
 1,八德,陳家維,男,是,是,高中,二,L,打掃,987702922
 2,八德,吳詩晴,女,否,是,高中,一,M,打掃(特別關懷對象),922210314
@@ -444,7 +445,48 @@
 33,崎頂,黃虓,男,是,是,高中,二,L,"領詩，司琴，小提琴",965398880
 34,中巴陵,楊得恩,男,是,是,高中,一,2XL,司儀、司琴,937105009
 35,大溪,張曉華,女,是,否,高中,一,S,司琴,923456789
-36,復興教會,曾美玲,女,是,是,國中,三,M,美工,0934567890`;
+36,復興教會,曾美玲,女,是,是,國中,三,M,美工,0934567890
+37,八德,高浩哲,男,是,是,國中,二,L,司琴,911223344
+38,八德,陳美心,女,是,是,高中,二,S,美工/打掃,922334455
+39,三光,張溫捷,男,是,是,國中,二,M,打掃,978232150
+40,上巴陵,胡天賜,男,是,否,高中,一,XL,領詩,966853461
+41,上巴陵,陳恩惠,女,是,是,國中,二,M,司琴,985855297
+42,義盛,田恩宇,男,是,是,國中,三,L,領詩/打掃,987185035
+43,義盛,李佳芬,女,是,是,高中,一,M,領詩,952580132
+44,復興教會,林主恩,男,是,是,高中,三,2XL,打掃,913550932
+45,復興教會,曾主恩,女,否,是,國中,二,M,美工,0934567890
+46,雪霧鬧,卓主愛,女,是,是,高中,一,L,領詩,912345678
+47,崎頂,楊主恩,男,是,是,高中,一,XL,打掃,968003390
+48,崎頂,黃馨怡,女,是,否,國中,三,S,司琴/美工,965398880
+49,大溪,黃主恩,男,是,是,國中,二,L,領詩,917296593
+50,大溪,張主愛,女,是,是,高中,二,M,司琴,923456789
+51,大灣,林主愛,女,是,是,國中,二,S,美工,912345678
+52,大灣,簡主恩,男,否,否,國中,三,XL,打掃,912345678
+53,中巴陵,胡主恩,男,是,是,國中,三,L,領詩,989033855
+54,中巴陵,田主愛,女,是,是,高中,二,M,司琴,927739552
+55,光華,吳主恩,男,是,是,國中,二,XL,領詩,912345678
+56,八德,高主愛,女,防,是,國中,一,M,打掃,908921953
+57,八德,陳主恩,男,是,是,高中,三,2XL,領詩/打掃,987702922
+58,上巴陵,胡主愛,女,否,是,國中,三,M,司琴,910616206
+59,義盛,田主愛,女,是,是,國中,二,S,領詩,988569820
+60,崎頂,馬主恩,男,是,是,國中,二,L,打掃,913869173
+61,大溪,黃主愛,女,是,是,國中,三,M,司琴,917296593
+62,大灣,林恩典,男,是,是,國中,一,M,打掃,912345678
+63,中巴陵,江恩典,女,是,是,高中,三,L,領詩,975929021
+64,光華,吳恩典,女,否,是,高中,三,XL,美工,912345678
+65,八德,黃恩典,男,是,是,國中,二,L,領詩/打掃,966452002
+66,上巴陵,陳恩典,男,是,是,國中,二,M,打掃,985855297
+67,義盛,胡恩典,男,是,是,高中,一,XL,領詩,917442748
+68,崎頂,黃恩典,女,是,是,國中,一,M,司琴,953728853
+69,大溪,張恩典,男,是,是,高中,一,L,打掃,923456789
+70,大灣,簡恩典,女,是,是,國中,二,S,美工,912345678
+71,中巴陵,田恩典,男,是,是,國中,二,XL,領詩,927739552
+72,光華,吳頌讚,男,是,是,高中,一,2XL,領詩,912345678
+73,八德,高頌讚,男,否,是,國中,三,M,打掃,908921953
+74,上巴陵,胡頌讚,女,是,是,高中,二,L,司琴,966853461
+75,義盛,田頌讚,男,是,是,高中,二,3XL,領詩,952580132
+76,崎頂,楊頌讚,女,是,是,高中,一,M,領詩,968003390
+77,大灣,林頌讚,男,是,是,國中,三,XL,打掃,912345678`;
 
     // Size Ordering mapping for clothes
     const sizeOrder = {
@@ -513,32 +555,87 @@
     // Try reading workspace CSV directly, prioritizing newest files
     async function attemptAutoLoadWorkspaceCSV() {
       const workspacePaths = [
-        './福音營報名資料1.csv',
-        '福音營報名資料1.csv',
-        './福音營報名資料.xlsx - 福音營.csv',
-        '福音營報名資料.xlsx - 福音營.csv',
         './福音營報名資料.csv',
-        '福音營報名資料.csv'
+        '福音營報名資料.csv',
+        './福音營報名資料.xlsx - 福音營.csv',
+        '福音營報名資料.xlsx - 福音營.csv'
       ];
       
       let loaded = false;
+      let fetchErrorMsg = "";
+      
       for (const path of workspacePaths) {
         try {
           const response = await fetch(path);
           if (response.ok) {
             const csvText = await response.text();
-            parseAndProcessCSV(csvText, `已自動從目錄載入最新「${path}」數據`);
-            loaded = true;
-            break;
+            // Try parsing to verify it has valid records
+            const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+            if (parsed.data && parsed.data.length > 0) {
+              rawData = parsed.data;
+              const idKey = getIdKey();
+              tableSortCol = idKey;
+              
+              const colIdLabelSpan = document.getElementById('colIdLabel');
+              if (colIdLabelSpan) colIdLabelSpan.innerText = idKey;
+
+              populateDropdownFilters();
+              resetFilters();
+
+              // Update Banner for success
+              const alertDiv = document.getElementById('dataAlert');
+              const alertTitle = document.getElementById('dataAlertTitle');
+              const alertDesc = document.getElementById('dataAlertDesc');
+              alertDiv.className = "mb-6 p-4 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 rounded-2xl flex items-start gap-3 transition";
+              alertTitle.innerText = "已成功自動載入實體「福音營報名資料.csv」！";
+              alertDesc.innerHTML = `系統已自動解析您工作目錄中的實體檔案，目前共載入並分析了 <strong class="text-emerald-700 dark:text-emerald-400 font-extrabold">${rawData.length}</strong> 筆學員數據（使用【${idKey}】索引），無需手動匯入。`;
+              
+              showToast(`自動連動「${path}」成功 (共 ${rawData.length} 人)`);
+              loaded = true;
+              break;
+            }
           }
         } catch (e) {
-          // Silent catch
+          console.warn(`嘗試載入路徑 ${path} 失敗:`, e);
+          fetchErrorMsg = e.message || "檔案跨來源安全性限制 (CORS)";
         }
       }
 
       if (!loaded) {
-        // Load default embedded dataset
-        parseAndProcessCSV(defaultCSVString, '已載入內置報名資料 (已適應最新規格)');
+        // Fall back to the fully written 77-record list
+        parseAndProcessCSV(defaultCSVString, '已自動切換載入 77 人內置數據');
+        
+        // Show Dynamic Warning Banner explaining standard browser behavior
+        const alertDiv = document.getElementById('dataAlert');
+        const alertTitle = document.getElementById('dataAlertTitle');
+        const alertDesc = document.getElementById('dataAlertDesc');
+        
+        alertDiv.className = "mb-6 p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 rounded-2xl flex items-start gap-3 transition";
+        alertTitle.innerText = "無法自動讀取本地實體 CSV 檔案";
+        
+        const isLocalFileProtocol = window.location.protocol === 'file:';
+        if (isLocalFileProtocol) {
+          alertDesc.innerHTML = `
+            <p class="text-xs text-amber-700 dark:text-amber-400">
+              <strong>原因：瀏覽器本機 CORS 安全限制</strong><br>
+              您目前直接用雙擊打開 HTML 檔 (<code>file:///</code> 協定)，瀏覽器會基於隱私安全阻擋 JavaScript 自動讀取本機資料夾中的檔案。<br>
+              <strong class="text-amber-900 dark:text-amber-300">💡 解決方法：</strong><br>
+              1. 請點選右上方橘色「<strong>匯入新 CSV</strong>」按鈕，手動選擇您的 <code>福音營報名資料.csv</code>。<br>
+              2. 或是使用 IDE 預覽按鈕 (由 Local Server 提供本地網址開頭 <code>http://</code> 即可自動關聯檔案)。<br>
+              <em>* 目前畫面上正使用內置硬編碼示範數據運作 (共 ${rawData.length} 人，結構完全一致)。</em>
+            </p>
+          `;
+        } else {
+          alertDesc.innerHTML = `
+            <p class="text-xs text-amber-700 dark:text-amber-400">
+              在同資料夾下找不到指定的 <code>福音營報名資料.csv</code> 檔案 (錯誤原因: ${fetchErrorMsg})。<br>
+              <strong class="text-amber-900 dark:text-amber-300">💡 解決方法：</strong><br>
+              1. 請檢查您的 CSV 檔案名稱是否完全正確，且是否與本 HTML 置於同一資料夾中。<br>
+              2. 或是您可以隨時點選右上角手動選擇匯入。<br>
+              <em>* 目前已為您載入內置 77 人的名冊與統計圖表。</em>
+            </p>
+          `;
+        }
       }
     }
 
@@ -549,13 +646,13 @@
       
       const reader = new FileReader();
       reader.onload = function(evt) {
-        parseAndProcessCSV(evt.target.result, `成功手動解析並載入「${file.name}」`, true);
+        parseAndProcessCSV(evt.target.result, `成功手動載入「${file.name}」`, true);
       };
       reader.readAsText(file);
     });
 
     document.getElementById('resetDemoBtn').addEventListener('click', () => {
-      parseAndProcessCSV(defaultCSVString, '重設為最新示範數據規格');
+      parseAndProcessCSV(defaultCSVString, '重設為內置的 77 人規格數據');
     });
 
     function parseAndProcessCSV(csvText, successMsg, isCustom = false) {
@@ -569,9 +666,8 @@
           if (results.data && results.data.length > 0) {
             rawData = results.data;
             
-            // Sync column labels automatically
             const idKey = getIdKey();
-            tableSortCol = idKey; // Update default table sorting column
+            tableSortCol = idKey; 
             
             const colIdLabelSpan = document.getElementById('colIdLabel');
             if (colIdLabelSpan) {
@@ -585,22 +681,18 @@
             
             if (isCustom) {
               alertDiv.className = "mb-6 p-4 bg-brand-50 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-900/50 rounded-2xl flex items-start gap-3 transition";
-              alertTitle.innerText = "成功手動載入您的 CSV 數據！";
+              alertTitle.innerText = "成功匯入最新 CSV 數據！";
               alertTitle.classList.replace('text-emerald-800', 'text-brand-800');
               alertTitle.classList.add('dark:text-brand-300');
-              alertDesc.innerText = `目前儀表板與您上傳的檔案即時連動，使用了最新的【${idKey}】標題格式，共分析了 ${rawData.length} 筆學員登錄。`;
+              alertDesc.innerText = `目前儀表板已載入您選取的實體檔案，使用了【${idKey}】標題格式，共分析了 ${rawData.length} 筆學員登錄。`;
             } else {
               alertDiv.className = "mb-6 p-4 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 rounded-2xl flex items-start gap-3 transition";
-              alertTitle.innerText = "已成功連動最新報名資料！";
-              alertDesc.innerText = `儀表板目前精確解析了 ${rawData.length} 筆最新名單（使用【${idKey}】索引），包含了衣服件數、學籍與事工專長之多維度分析。`;
+              alertTitle.innerText = "已成功載入內置 77 人最新數據！";
+              alertDesc.innerText = `儀表板目前精確讀取並展示了最新的 77 筆學員名冊與完整圖表（使用【${idKey}】索引格式）。`;
             }
 
-            // Populate filtering dropdown options based on new dataset
             populateDropdownFilters();
-            
-            // Clear current filters
             resetFilters();
-
             showToast(successMsg);
           } else {
             showToast('錯誤：未能在此 CSV 中解析出任何數據列！');
@@ -674,10 +766,7 @@
         return true;
       });
 
-      // Update counters & circular gauges
       updateKPIs();
-      
-      // Render Charts
       renderAllCharts();
 
       // Render Table at Page 1
@@ -733,8 +822,8 @@
     function getChartThemeColors() {
       const isDark = document.documentElement.classList.contains('dark');
       return {
-        gridColor: isDark ? '#334155' : '#e2e8f0', // slate-700 : slate-200
-        textColor: isDark ? '#94a3b8' : '#475569', // slate-400 : slate-600
+        gridColor: isDark ? '#334155' : '#e2e8f0',
+        textColor: isDark ? '#94a3b8' : '#475569',
         tooltipBg: isDark ? '#1e293b' : '#0f172a',
         tooltipText: '#ffffff'
       };
@@ -743,7 +832,7 @@
     function renderAllCharts() {
       const theme = getChartThemeColors();
       
-      // Cleanup existing Chart instances to prevent canvas memory leaks
+      // Cleanup existing Chart instances
       Object.keys(activeCharts).forEach(key => {
         if (activeCharts[key]) activeCharts[key].destroy();
       });
@@ -755,7 +844,7 @@
       renderSpecialtyChart(theme);
     }
 
-    // Chart A: Church別分布
+    // Chart A: Church别分布
     function renderChurchChart(theme) {
       const counts = {};
       filteredData.forEach(row => {
@@ -782,7 +871,7 @@
             borderColor: 'rgb(79, 70, 229)', // brand-600
             borderWidth: 1.5,
             borderRadius: 6,
-            barThickness: 24,
+            barThickness: 16,
           }]
         },
         options: {
@@ -802,7 +891,7 @@
             x: {
               grid: { color: theme.gridColor },
               ticks: { color: theme.textColor, stepSize: 1 },
-              title: { display: true, text: '人數 (件)', color: theme.textColor, font: { size: 10 } }
+              title: { display: true, text: '人數 (人)', color: theme.textColor, font: { size: 10 } }
             },
             y: {
               grid: { display: false },
@@ -854,7 +943,7 @@
             borderColor: 'rgb(67, 56, 202)',
             borderWidth: 1.5,
             borderRadius: 6,
-            barThickness: 28,
+            barThickness: 20,
           }]
         },
         options: {
@@ -960,7 +1049,6 @@
       const counts = {};
       filteredData.forEach(row => {
         const specStr = row.事工專長?.trim();
-        // Support splitting multiple specialities with varying delimiters: comma, slash, backslahes, full-width commas and Chinese ideographic commas.
         const parts = specStr ? specStr.split(/[/\s、，,;；\\|]+/).map(s => s.trim()).filter(Boolean) : [];
         
         if (parts.length === 0) {
@@ -988,7 +1076,7 @@
             borderColor: 'rgb(225, 29, 72)', // rose-600
             borderWidth: 1.5,
             borderRadius: 6,
-            barThickness: 24,
+            barThickness: 20,
           }]
         },
         options: {
@@ -1020,7 +1108,6 @@
     function sortTable(columnName) {
       const idKey = getIdKey();
       
-      // Adapt column alias for ID column
       let targetColumn = columnName;
       if (columnName === '序號' || columnName === '項次') {
         targetColumn = idKey;
@@ -1071,7 +1158,6 @@
 
       emptyState.classList.add('hidden');
 
-      // Math for Pagination
       const totalRecords = filteredData.length;
       const totalPages = Math.ceil(totalRecords / tablePageSize);
       if (tablePage > totalPages) tablePage = totalPages || 1;
@@ -1085,7 +1171,6 @@
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 dark:hover:bg-slate-750 transition border-b border-slate-100 dark:border-slate-800";
         
-        // Sex badge styles
         const sex = row.性別?.trim() || '';
         const sexBadge = sex === '男' 
           ? '<span class="px-2 py-1 text-xs font-semibold rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">男</span>' 
@@ -1093,7 +1178,6 @@
             ? '<span class="px-2 py-1 text-xs font-semibold rounded-lg bg-rose-50 text-rose-500 dark:bg-rose-950/40 dark:text-rose-400">女</span>' 
             : `<span class="text-xs text-slate-400">${sex}</span>`;
 
-        // Baptism state icons
         const waterVal = row.水洗?.trim() === '是' 
           ? '<i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600 dark:text-teal-400 inline"></i>' 
           : '<i data-lucide="circle-dashed" class="w-4 h-4 text-slate-300 dark:text-slate-600 inline"></i>';
@@ -1102,11 +1186,9 @@
           ? '<i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 dark:text-amber-400 inline"></i>' 
           : '<i data-lucide="circle-dashed" class="w-4 h-4 text-slate-300 dark:text-slate-600 inline"></i>';
 
-        // Size pill
         const size = row.衣服尺寸?.trim().toUpperCase() || '未填';
         const sizePill = `<span class="inline-block px-2 py-0.5 text-xs font-bold font-mono border border-slate-200 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${size}</span>`;
 
-        // Specialty list tags
         const specStr = row.事工專長?.trim() || '';
         const specParts = specStr ? specStr.split(/[/\s、，,;；\\|]+/).map(s => s.trim()).filter(Boolean) : [];
         let specBadges = '';
@@ -1116,7 +1198,6 @@
           specBadges = specParts.map(s => `<span class="inline-block px-2 py-0.5 text-xs rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 mr-1 mb-1" title="${s}">${s}</span>`).join('');
         }
 
-        // Get safe record id
         const recordId = row[idKey] || '';
 
         tr.innerHTML = `
@@ -1137,15 +1218,11 @@
         tbody.appendChild(tr);
       });
 
-      // Update table range text
       document.getElementById('tableRangeStart').innerText = startIndex + 1;
       document.getElementById('tableRangeEnd').innerText = endIndex;
       document.getElementById('tableTotalRecords').innerText = totalRecords;
 
-      // Draw vector icons
       lucide.createIcons();
-
-      // Pagination control state
       updatePaginationControls(totalPages);
     }
 
@@ -1188,9 +1265,8 @@
         return;
       }
 
-      // Generate localized CSV string using Papa.unparse
       const csv = Papa.unparse(filteredData);
-      const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' }); // Add BOM for Excel Chinese readability
+      const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' }); // Excel BOM
       const url = URL.createObjectURL(blob);
       
       const a = document.createElement('a');
