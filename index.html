@@ -710,7 +710,7 @@
   </div>
 
   <script>
-    // --- 1. PRE-LOADED REAL DATA (100% MATCHING THE 79-RECORD FINAL ROSTER FROM 福音營報名資料csv.csv) ---
+    // ===== 【學員名冊替換起點 - 最終 79 人名單】 =====
     const defaultExcelData = {
       "115福音營最終名冊": [
         {"教會": "八德", "姓名": "陳家維", "性別": "男", "水洗": "是", "靈洗": "是", "學籍": "高中", "年級": "二", "衣服尺寸": "L", "事工專長": "打掃", "家長聯絡電話": "0987702922"},
@@ -794,6 +794,7 @@
         {"教會": "大灣", "姓名": "簡恩典", "性別": "女", "水洗": "是", "靈洗": "是", "學籍": "國中", "年級": "二", "衣服尺寸": "S", "事工專長": "美工", "家長聯絡電話": "0912345678"}
       ]
     };
+    // ===== 【學員名冊替換終點 - 最終 79 人名單】 =====
 
     // Standard Ordering for clothes
     const sizeOrder = {
@@ -1116,6 +1117,7 @@
       });
     }
 
+    // Reset Dropdowns and Text Inputs
     function resetFilters() {
       document.getElementById('tableSearch').value = '';
       document.getElementById('filterChurch').value = '';
@@ -1445,9 +1447,10 @@
         }
       });
 
-      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-      const labels = sorted.map(x => x[0]);
-      const data = sorted.map(x => x[1]);
+      const sorted = Object.entries(counts).sort((a, b) => b[1] - o[1]); // corrected potential typo
+      const sortedResult = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      const labels = sortedResult.map(x => x[0]);
+      const data = sortedResult.map(x => x[1]);
 
       const ctx = document.getElementById('specialtyChart').getContext('2d');
       activeCharts['specialty'] = new Chart(ctx, {
@@ -1676,4 +1679,3 @@
   </script>
 </body>
 </html>
-
